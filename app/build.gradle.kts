@@ -4,13 +4,16 @@
  * This generated file contains a sample Java application project to get you started.
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.3/userguide/building_java_projects.html in the Gradle documentation.
  */
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
 
     id("org.graalvm.buildtools.native").version("0.9.12")
-
+    id("org.cyclonedx.bom").version("1.10.0")
+    id("com.github.johnrengelman.shadow").version("8.1.1")
+    id("com.bmuschko.docker-java-application").version("9.4.0")
 }
 
 repositories {
@@ -32,11 +35,7 @@ dependencies {
     annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
 }
 
-
-
-
 application {
-    // Define the main class for the application.
     mainClass.set("de.codepitbull.cli.Cli")
 }
 
@@ -55,4 +54,33 @@ graalvmNative {
             })
         }
     }
+}
+
+tasks.create("createDockerfile", Dockerfile::class) {
+    from("eclipse-temurin:21-jre")
+    copyFile("app/build/libs/app.jar", "/app/app.jar")
+    entryPoint("java")
+    defaultCommand("-cp", "/app/app.jar", "de.codepitbull.cli.Server")
+    exposePort(8080)
+}
+
+
+
+
+
+docker {
+    javaApplication {
+        baseImage.set("eclipse-temurin:21-jre")
+        maintainer.set("Jochen Mader")
+        ports.set(listOf(8080))
+        images.set(setOf("hello:latest"))
+        jvmArgs.set(listOf("-Xms256m", "-Xmx2048m"))
+        args.set(listOf("server"))
+    }
+}
+
+tasks.cyclonedxBom {
+    setIncludeConfigs(listOf("runtimeClasspath"))
+    setSkipConfigs(listOf("compileClasspath", "testCompileClasspath"))
+    setProjectType("application")
 }
