@@ -14,4 +14,11 @@ public class DaggerCommandModule {
     public DaggerCommand loginCommand(MyDaggerCommand command) {
         return command;
     }
+
+    @Provides
+    @IntoMap
+    @DaggerCommandClassKey(StartServerCommand.class)
+    public DaggerCommand startServerCommand(StartServerCommand command) {
+        return command;
+    }
 }

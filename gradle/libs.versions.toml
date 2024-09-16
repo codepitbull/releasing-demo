@@ -1,0 +1,22 @@
+[versions]
+junit-jupiter = "5.11.4"
+picocli = "4.7.6"
+jansi = "2.4.1"
+dagger = "2.51.1"
+
+[libraries]
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+picocli-shell = { module = "info.picocli:picocli-shell-jline3", version.ref = "picocli" }
+picocli-codegen = { module = "info.picocli:picocli-codegen", version.ref = "picocli" }
+jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+
+[plugins]
+graalvm = { id = "org.graalvm.buildtools.native", version = "0.9.12" }
+cyclonedx = { id = "org.cyclonedx.bom", version = "1.10.0" }
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+docker-java = { id = "com.bmuschko.docker-java-application", version = "9.4.0" }
+jreleaser = { id = "org.jreleaser", version = "1.11.0" }
+
+
