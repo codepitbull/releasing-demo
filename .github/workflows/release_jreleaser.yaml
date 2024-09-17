@@ -74,7 +74,7 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+          cosign sign --yes --recursive --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_KEY }}
