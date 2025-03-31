@@ -29,7 +29,7 @@ catalog:
 distributions:
   cli:
     artifacts:
-      - path: build/libs/cli-all.jar
+      - path: build/libs/cli.jar
         platform: linux
 files:
   artifacts:

@@ -16,7 +16,7 @@ build/native/nativeCompile/cli
 
 ```bash
 ./gradlew shadowJar
-java -jar build/libs/cli-all.jar
+java -jar build/libs/cli.jar
 ```
 
 ## Compress
@@ -44,23 +44,23 @@ brew install rekor-cli
 ### Signing with pregenerated key
 
 ```bash
-wget https://github.com/codepitbull/releasing-demo/releases/download/v1.0.0/cli-all.jar
+wget https://github.com/codepitbull/releasing-demo/releases/download/v1.0.0/cli.jar
 cosign generate-key-pair
 cosign sign-blob --key cosign.key app-all.jar
-cosign sign-blob --key cosign.key --bundle cosign.bundle cli-all.jar
+cosign sign-blob --key cosign.key --bundle cosign.bundle cli.jar
 ```
 
 ### Signing with OIDC
 
 ```bash
-wget https://github.com/codepitbull/releasing-demo/releases/download/v1.0.0/cli-all.jar
-cosign sign-blob cli-all.jar
-cosign sign-blob cli-all.jar --bundle cosign.bundle
+wget https://github.com/codepitbull/releasing-demo/releases/download/v1.0.0/cli.jar
+cosign sign-blob cli.jar
+cosign sign-blob cli.jar --bundle cosign.bundle
 ```
 
 ```bash
 ➜  releasing-demo git:(main) ✗ cosign sign-blob app-all.jar --bundle cosign.bundle
-Using payload from: cli-all.jar
+Using payload from: cli.jar
 Generating ephemeral keys...
 Retrieving signed certificate...
 
@@ -147,7 +147,7 @@ Body: {
 ```
 
 ```bash
-cosign verify-blob --bundle cosign.bundle --certificate-identity=jochen@codepitbull.de --certificate-oidc-issuer=https://github.com/login/oauth cli-all.jar
+cosign verify-blob --bundle cosign.bundle --certificate-identity=jochen@codepitbull.de --certificate-oidc-issuer=https://github.com/login/oauth cli.jar
 ```
 
 ```bash
