@@ -10,45 +10,45 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # @v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # @v4.2.2
         with:
           fetch-depth: 0
 
       - name: Setup Java
-        uses: actions/setup-java@2dfa2011c5b2a0f1489bf9e433881c92c1631f88 # @v4.3.0
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # @v4.7.0
         with:
           java-version: 21
           distribution: 'zulu'
           cache: gradle
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@d156388eb19639ec20ade50009f3d199ce1e2808 # @v4.1.0
+        uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # @v4.3.1
       - name: Build with Gradle
         run: ./gradlew shadowJar
 
       # Docker
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # @v3.2.0
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # @v3.6.0
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db # @v3.6.1
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # @v3.10.0
 
       - name: Login to Docker Hub
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # @v3.3.0
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # @v3.4.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: docker_meta
         id: meta
-        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # @v5.5.1
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # @v5.7.0
         with:
           images: codepitbull/hello
           tags: type=raw,value=latest
 
       - name: Build and push
         id: build-and-push
-        uses: docker/build-push-action@5cd11c3a4ced054e52742c5fd54dca954e0edd85 # @v6.7.0
+        uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # @v6.15.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -57,13 +57,13 @@ jobs:
 
       - name: Generate Docker SBOM
         id: docker-sbom
-        uses: anchore/sbom-action@55dc4ee22412511ee8c3142cbea40418e6cec693 # @v1.17.0
+        uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # @v1.18.0
         with:
           artifact-name: docker-sbom.spdx
           output-file: docker-sbom.spdx
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # @v3.6.0
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # @v3.8.1
 
       - name: Sign image with a key
         run: |
@@ -82,7 +82,7 @@ jobs:
 
       - name: JReleaser release output
         if: always()
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # @v4.4.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # @v4.6.2
         with:
           name: jreleaser-release
           path: |
