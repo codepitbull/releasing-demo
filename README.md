@@ -168,3 +168,31 @@ docker push codepitbull/hello:latest
 cosign sign codepitbull/hello@sha256:611a4504f59f67a07892862155ac09ae98ab23499f89d97e7eddcd195515ffa0
 cosign verify --certificate-identity=jochen@codepitbull.de --certificate-oidc-issuer=https://github.com/login/oauth codepitbull/hello:latest 
 ```
+
+
+## Kind
+
+```
+kind delete cluster
+kind create cluster
+```
+
+```yaml
+- name: default
+  type: cosign  # or other supported validator (e.g. "cosign")
+  trustRoots:
+  # the `default` key is used if no key is specified in image policy
+  - name: default
+    key: |  # enter your key below
+      -----BEGIN PUBLIC KEY-----
+      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMO1dTXvJC1GV2bXNRr+fnqsuImaY
+      rs1JfSRzq2ntqwrGo+4+YdQcwEr7IvnPpXqfC2cI9Gu1uAC9T0WMNWGASQ==
+      -----END PUBLIC KEY-----
+```
+
+```bash
+helm repo add connaisseur https://sse-secure-systems.github.io/connaisseur/charts
+helm repo update
+helm search repo
+helm install connaisseur connaisseur/connaisseur --atomic --create-namespace --namespace connaisseur --values=kindsetup/values.yaml
+```
